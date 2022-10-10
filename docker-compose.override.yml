@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+    shopiorderdb:
+        container_name: shopiorderdb
+        ports:
+            - "1433:1433"
+        environment:
+            SA_PASSWORD: "SwN12345678"
+            ACCEPT_EULA: "Y"
+
+    shopiordering.api:
+        container_name: shopiorderingapi
+        restart: on-failure
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "ConnectionStrings:OrderConnection=Server=shopiorderdb;Database=OrderDb;User Id=sa;Password=SwN12345678;"
+        depends_on:
+            - shopiorderdb
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "8002:80"

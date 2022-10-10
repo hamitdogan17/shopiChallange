@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+    shopiorderdb:
+        image: mcr.microsoft.com/mssql/server
+    
+    shopiordering.api:
+        image: ${DOCKER_REGISTRY-}shopiorderingapi
+        build:
+            context: .
+            dockerfile: Shopi.Challange.Ordering.API/Dockerfile
